@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "example": "ts-node examples/usage-example.ts",
+    "seed": "ts-node src/scripts/seed.ts"
+  }
+}
