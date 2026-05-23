@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { 
   UserPreferencesController, 
   NotificationEvaluationController, 
@@ -38,16 +38,16 @@ export function createRoutes(): Router {
   router.get('/policies', policiesController.getPolicies.bind(policiesController));
   router.post('/policies', policiesController.upsertPolicy.bind(policiesController));
   
-  // 404 handler
-  router.use((req: Request, res: Response) => {
+  // 404 handler - обрабатываем все необработанные маршруты
+  router.use('*', (req: Request, res: Response) => {
     res.status(404).json({
       error: 'Route not found',
-      path: req.originalUrl
+      path: req.url
     });
   });
   
   // Error handler
-  router.use((error: any, req: any, res: any, next: any) => {
+  router.use((error: any, req: Request, res: Response, next: any) => {
     console.error('Unhandled error:', error);
     res.status(500).json({
       error: 'Internal server error',
